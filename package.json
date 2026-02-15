@@ -12,7 +12,7 @@
     "url": "https://github.com/Aaravanand00/blockchain-memory-game"
   },
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   },
   "keywords": [
     "blockchain",
