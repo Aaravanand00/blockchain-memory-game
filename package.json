@@ -11,6 +11,10 @@
     "type": "git",
     "url": "https://github.com/Aaravanand00/blockchain-memory-game"
   },
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
   "keywords": [
     "blockchain",
     "ethereum",
