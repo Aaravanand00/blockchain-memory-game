@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blockchain Memory Game - Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #00d4ff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+        }
+
+        .status-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+
+        .label {
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        .value {
+            color: #00d4ff;
+            font-family: monospace;
+            font-weight: 600;
+        }
+
+        .success {
+            color: #10b981;
+        }
+
+        .error {
+            color: #ec4899;
+        }
+
+        button {
+            background: linear-gradient(135deg, #00d4ff, #a78bfa);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 0.5rem;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .actions {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .log {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            border-left: 3px solid #00d4ff;
+            padding-left: 1rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .warning {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            color: #fbbf24;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            aspect-ratio: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: #00d4ff;
+            transform: translateY(-4px);
+        }
+
+        .nft-section {
+            margin-top: 3rem;
+        }
+
+        .nft-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .nft-item {
+            aspect-ratio: 1;
+            background: rgba(167, 139, 250, 0.1);
+            border: 2px solid #a78bfa;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 BLOCKCHAIN MEMORY GAME - TEST PAGE</h1>
+
+        <div class="warning">
+            ⚠️ <strong>Setup Required:</strong> Make sure Ganache is running and MetaMask is connected to Ganache network (http://127.0.0.1:7545)
+        </div>
+
+        <div class="status-panel">
+            <h2 style="margin-bottom: 1rem;">🔗 Connection Status</h2>
+            <div class="status-row">
+                <span class="label">MetaMask:</span>
+                <span class="value" id="metamask-status">Checking...</span>
+            </div>
+            <div class="status-row">
+                <span class="label">Network:</span>
+                <span class="value" id="network-status">Checking...</span>
+            </div>
+            <div class="status-row">
+                <span class="label">Account:</span>
+                <span class="value" id="account-status">Not connected</span>
+            </div>
+            <div class="status-row">
+                <span class="label">Contract:</span>
+                <span class="value" id="contract-status">Not loaded</span>
+            </div>
+            <div class="status-row">
+                <span class="label">Total NFTs:</span>
+                <span class="value" id="nft-count">0</span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button onclick="connectWallet()">🔗 Connect MetaMask</button>
+            <button onclick="loadContract()">📜 Load Contract</button>
+            <button onclick="testMint()" id="mint-btn" disabled>🎨 Test Mint NFT</button>
+            <button onclick="checkBalance()">💰 Check Balance</button>
+        </div>
+
+        <div class="nft-section">
+            <h2>🏆 Your NFT Collection</h2>
+            <div class="nft-grid" id="nft-grid">
+                <p style="color: rgba(255,255,255,0.5); grid-column: 1/-1; text-align: center;">
+                    Connect wallet and load contract to see your NFTs
+                </p>
+            </div>
+        </div>
+
+        <div class="log">
+            <h3 style="margin-bottom: 1rem;">📝 Activity Log</h3>
+            <div id="log-content">
+                <div class="log-entry">Ready to test blockchain functionality...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <script>
+        let web3;
+        let account;
+        let contract;
+        
+        // Contract ABI (simplified - load from your compiled contract)
+        const CONTRACT_ABI = [
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "totalSupply",
+                "outputs": [{"name": "", "type": "uint256"}],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [{"name": "owner", "type": "address"}],
+                "name": "balanceOf",
+                "outputs": [{"name": "", "type": "uint256"}],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {"name": "_to", "type": "address"},
+                    {"name": "_tokenURI", "type": "string"}
+                ],
+                "name": "mint",
+                "outputs": [{"name": "", "type": "bool"}],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [{"name": "tokenId", "type": "uint256"}],
+                "name": "tokenURI",
+                "outputs": [{"name": "", "type": "string"}],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {"name": "owner", "type": "address"},
+                    {"name": "index", "type": "uint256"}
+                ],
+                "name": "tokenOfOwnerByIndex",
+                "outputs": [{"name": "", "type": "uint256"}],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+
+        // UPDATE THIS with your deployed contract address from Ganache!
+        const CONTRACT_ADDRESS = '0x47fFcD58a2ed5CC1463b345dFCA742777Ebc277E';
+
+        function log(message, type = 'info') {
+            const logContent = document.getElementById('log-content');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logContent.appendChild(entry);
+            logContent.scrollTop = logContent.scrollHeight;
+        }
+
+        async function connectWallet() {
+            try {
+                if (typeof window.ethereum === 'undefined') {
+                    log('❌ MetaMask not found! Please install MetaMask.', 'error');
+                    document.getElementById('metamask-status').textContent = '❌ Not Installed';
+                    document.getElementById('metamask-status').className = 'value error';
+                    return;
+                }
+
+                log('🔄 Requesting wallet connection...');
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                
+                web3 = new Web3(window.ethereum);
+                const accounts = await web3.eth.getAccounts();
+                account = accounts[0];
+
+                const networkId = await web3.eth.net.getId();
+                const networkName = networkId === 5777 || networkId === 1337 ? 'Ganache' : `Network ${networkId}`;
+
+                document.getElementById('metamask-status').textContent = '✅ Connected';
+                document.getElementById('metamask-status').className = 'value success';
+                document.getElementById('network-status').textContent = `${networkName} (${networkId})`;
+                document.getElementById('account-status').textContent = `${account.substring(0, 6)}...${account.substring(38)}`;
+
+                log(`✅ Connected to ${networkName}`);
+                log(`✅ Account: ${account}`);
+                
+            } catch (error) {
+                log(`❌ Error connecting wallet: ${error.message}`, 'error');
+                document.getElementById('metamask-status').className = 'value error';
+            }
+        }
+
+        async function loadContract() {
+            if (!web3 || !account) {
+                log('⚠️ Please connect wallet first!', 'warning');
+                return;
+            }
+
+            try {
+                log('🔄 Loading smart contract...');
+                contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                
+                const totalSupply = await contract.methods.totalSupply().call();
+                log(`✅ Contract loaded! Total supply: ${totalSupply}`);
+                
+                document.getElementById('contract-status').textContent = `✅ ${CONTRACT_ADDRESS.substring(0, 8)}...`;
+                document.getElementById('contract-status').className = 'value success';
+                document.getElementById('mint-btn').disabled = false;
+
+                await loadNFTs();
+                
+            } catch (error) {
+                log(`❌ Error loading contract: ${error.message}`, 'error');
+                document.getElementById('contract-status').className = 'value error';
+            }
+        }
+
+        async function loadNFTs() {
+            if (!contract || !account) return;
+
+            try {
+                log('🔄 Loading your NFTs...');
+                const balance = await contract.methods.balanceOf(account).call();
+                
+                document.getElementById('nft-count').textContent = balance;
+                
+                const nftGrid = document.getElementById('nft-grid');
+                nftGrid.innerHTML = '';
+
+                if (balance > 0) {
+                    for (let i = 0; i < balance; i++) {
+                        const tokenId = await contract.methods.tokenOfOwnerByIndex(account, i).call();
+                        const tokenURI = await contract.methods.tokenURI(tokenId).call();
+                        
+                        const nftDiv = document.createElement('div');
+                        nftDiv.className = 'nft-item';
+                        nftDiv.innerHTML = `<img src="${tokenURI}" style="width: 100%; height: 100%; object-fit: contain;" />`;
+                        nftGrid.appendChild(nftDiv);
+                        
+                        log(`✅ NFT #${tokenId} loaded`);
+                    }
+                } else {
+                    nftGrid.innerHTML = '<p style="color: rgba(255,255,255,0.5); grid-column: 1/-1; text-align: center;">No NFTs yet. Mint your first NFT!</p>';
+                }
+                
+            } catch (error) {
+                log(`❌ Error loading NFTs: ${error.message}`, 'error');
+            }
+        }
+
+        async function testMint() {
+            if (!contract || !account) {
+                log('⚠️ Please connect wallet and load contract first!', 'warning');
+                return;
+            }
+
+            try {
+                log('🔄 Minting test NFT...');
+                const testURI = window.location.origin + '/images/pizza.png';
+                
+                const result = await contract.methods.mint(account, testURI).send({ from: account });
+                
+                log(`✅ NFT Minted! Transaction: ${result.transactionHash}`);
+                log(`🎉 Success! Check your NFT collection below.`);
+                
+                await loadNFTs();
+                
+            } catch (error) {
+                log(`❌ Minting failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkBalance() {
+            if (!web3 || !account) {
+                log('⚠️ Please connect wallet first!', 'warning');
+                return;
+            }
+
+            try {
+                const balance = await web3.eth.getBalance(account);
+                const ethBalance = web3.utils.fromWei(balance, 'ether');
+                log(`💰 Account balance: ${parseFloat(ethBalance).toFixed(4)} ETH`);
+            } catch (error) {
+                log(`❌ Error checking balance: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-connect if MetaMask is already connected
+        window.addEventListener('load', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                if (accounts.length > 0) {
+                    log('🔄 Auto-connecting to MetaMask...');
+                    await connectWallet();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

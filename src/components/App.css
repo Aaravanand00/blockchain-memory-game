@@ -1,0 +1,898 @@
+/* ===========================
+   REFINED WEB3 GAMING THEME
+   Performance-optimized • Smooth 60fps
+   =========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap');
+
+/* ===========================
+   ROOT VARIABLES
+   =========================== */
+:root {
+  /* Refined Color Palette */
+  --neon-blue: #00d4ff;
+  --neon-purple: #a78bfa;
+  --neon-green: #10b981;
+  --neon-pink: #ec4899;
+  --dark-bg: #0f172a;
+  --darker-bg: #020617;
+  --card-bg: rgba(30, 41, 59, 0.6);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  /* Typography */
+  --font-gaming: 'Orbitron', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+
+  /* Subtle Effects */
+  --glow-sm: 0 0 10px rgba(0, 212, 255, 0.3);
+  --glow-md: 0 0 15px rgba(0, 212, 255, 0.4);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===========================
+   BODY & BACKGROUND
+   =========================== */
+body {
+  font-family: var(--font-body);
+  background: var(--darker-bg);
+  color: #ffffff;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Subtle Gradient Background */
+.app-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: linear-gradient(135deg, var(--darker-bg) 0%, #1e293b 50%, var(--darker-bg) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 20s ease infinite;
+}
+
+@keyframes gradientShift {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Minimal Particles - Only 5 for performance */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  background: var(--neon-blue);
+  border-radius: 50%;
+  animation: float 25s linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.4;
+  }
+
+  90% {
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: translateY(-100vh) translateX(30px);
+    opacity: 0;
+  }
+}
+
+/* ===========================
+   NAVBAR
+   =========================== */
+.navbar {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 1rem 2rem !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar-brand {
+  font-family: var(--font-gaming) !important;
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  color: var(--neon-blue) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem;
+  transition: color 0.2s ease;
+  text-decoration: none !important;
+}
+
+.navbar-brand:hover {
+  color: var(--neon-purple) !important;
+}
+
+.brand-logo {
+  filter: drop-shadow(var(--glow-sm));
+  animation: rotate 15s linear infinite;
+  will-change: transform;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.wallet-address {
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  padding: 0.4rem 1.2rem;
+  border-radius: 24px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: var(--neon-green);
+}
+
+.network-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--glass-bg);
+  padding: 0.35rem 0.9rem;
+  border-radius: 16px;
+  margin-right: 0.75rem;
+  border: 1px solid var(--glass-border);
+  font-size: 0.8rem;
+}
+
+.network-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--neon-green);
+  border-radius: 50%;
+  box-shadow: var(--glow-sm);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ===========================
+   MAIN CONTAINER
+   =========================== */
+.container-fluid {
+  margin-top: 80px;
+  padding: 1.5rem;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ===========================
+   GAME HEADER
+   =========================== */
+.game-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.game-title {
+  font-family: var(--font-gaming);
+  font-size: 2.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.game-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+}
+
+/* ===========================
+   GAME STATS PANEL
+   =========================== */
+.stats-panel {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.2rem 2rem;
+  min-width: 140px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.4rem;
+}
+
+.stat-value {
+  font-family: var(--font-gaming);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--neon-blue);
+}
+
+.stat-value.timer {
+  color: var(--neon-purple);
+}
+
+.stat-value.score {
+  color: var(--neon-green);
+}
+
+/* ===========================
+   GAME GRID - Optimized Cards
+   =========================== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto 2.5rem;
+  padding: 1rem;
+}
+
+.card-wrapper {
+  perspective: 1000px;
+  aspect-ratio: 1;
+}
+
+.game-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+  cursor: pointer;
+  will-change: transform;
+}
+
+.game-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.game-card.matched {
+  animation: matchPulse 0.4s ease;
+}
+
+@keyframes matchPulse {
+
+  0%,
+  100% {
+    transform: rotateY(180deg) scale(1);
+  }
+
+  50% {
+    transform: rotateY(180deg) scale(1.08);
+  }
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  overflow: hidden;
+  background: var(--card-bg);
+  backdrop-filter: blur(8px);
+  border: 2px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease;
+}
+
+.game-card:hover .card-face {
+  border-color: var(--neon-blue);
+}
+
+.card-front {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(51, 65, 85, 0.8));
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.1), rgba(0, 212, 255, 0.1));
+}
+
+.card-image {
+  width: 75%;
+  height: 75%;
+  object-fit: contain;
+  filter: drop-shadow(var(--glow-sm));
+}
+
+/* ===========================
+   NFT COLLECTION SECTION
+   =========================== */
+.nft-section {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.nft-header {
+  font-family: var(--font-gaming);
+  font-size: 1.5rem;
+  color: var(--neon-purple);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.nft-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nft-token {
+  aspect-ratio: 1;
+  background: var(--card-bg);
+  backdrop-filter: blur(8px);
+  border: 2px solid var(--neon-purple);
+  border-radius: 12px;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.3);
+  transition: transform 0.2s ease;
+  animation: nftAppear 0.4s ease;
+}
+
+@keyframes nftAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.nft-token:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.nft-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.4));
+}
+
+.token-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+  padding: 0.5rem 1.5rem;
+  border-radius: 24px;
+  font-family: var(--font-gaming);
+  font-size: 1rem;
+  box-shadow: var(--glow-sm);
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   TRANSACTION STATUS - Enhanced
+   =========================== */
+.transaction-status {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  border: 2px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: var(--shadow-md);
+  z-index: 1000;
+  animation: slideIn 0.3s ease;
+  min-width: 280px;
+  max-width: 320px;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.transaction-status.pending {
+  border-color: var(--neon-blue);
+}
+
+.transaction-status.confirmed {
+  border-color: var(--neon-green);
+}
+
+.transaction-status.error {
+  border-color: var(--neon-pink);
+}
+
+.tx-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.tx-icon {
+  font-size: 1.5rem;
+}
+
+.tx-title {
+  font-family: var(--font-gaming);
+  font-size: 1rem;
+  color: var(--neon-blue);
+}
+
+.tx-message {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(0, 212, 255, 0.2);
+  border-top: 3px solid var(--neon-blue);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===========================
+   MODAL - NFT Reward
+   =========================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--neon-purple);
+  border-radius: 24px;
+  padding: 2.5rem;
+  max-width: 450px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: modalPop 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes modalPop {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-title {
+  font-family: var(--font-gaming);
+  font-size: 2rem;
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+}
+
+.modal-nft {
+  width: 180px;
+  height: 180px;
+  margin: 1.5rem auto;
+  border: 3px solid var(--neon-purple);
+  border-radius: 16px;
+  padding: 1rem;
+  background: var(--glass-bg);
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
+}
+
+.modal-nft img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.modal-message {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.modal-close {
+  font-family: var(--font-gaming);
+  padding: 0.8rem 2.5rem;
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: var(--glow-sm);
+}
+
+.modal-close:hover {
+  transform: scale(1.05);
+  box-shadow: var(--glow-md);
+}
+
+/* ===========================
+   WIN ANIMATION - Optimized
+   =========================== */
+.win-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3000;
+  animation: fadeIn 0.3s ease;
+}
+
+.confetti {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  animation: confettiFall 2.5s linear forwards;
+  will-change: transform;
+}
+
+@keyframes confettiFall {
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.win-content {
+  text-align: center;
+  animation: winPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes winPop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.win-title {
+  font-family: var(--font-gaming);
+  font-size: 4rem;
+  background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+}
+
+.win-stats {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 2rem;
+}
+
+.win-stats p {
+  margin: 0.5rem 0;
+}
+
+/* ===========================
+   ACTION BUTTONS
+   =========================== */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  font-family: var(--font-gaming);
+  padding: 0.8rem 2rem;
+  background: var(--glass-bg);
+  backdrop-filter: blur(8px);
+  border: 2px solid var(--glass-border);
+  border-radius: 12px;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.action-btn:hover:not(:disabled) {
+  border-color: var(--neon-blue);
+  background: rgba(0, 212, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+  border-color: var(--neon-blue);
+  box-shadow: var(--glow-sm);
+}
+
+.action-btn.primary:hover:not(:disabled) {
+  box-shadow: var(--glow-md);
+}
+
+.restart-btn {
+  font-family: var(--font-gaming);
+  padding: 1.2rem 3rem;
+  background: linear-gradient(135deg, var(--neon-green), var(--neon-blue));
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--glow-sm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.restart-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--glow-md);
+}
+
+/* ===========================
+   RETRY BUTTON
+   =========================== */
+.retry-btn {
+  margin-top: 0.75rem;
+  padding: 0.6rem 1.5rem;
+  background: var(--neon-pink);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-family: var(--font-gaming);
+  font-size: 0.85rem;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.retry-btn:hover {
+  background: #be185d;
+  transform: translateY(-1px);
+}
+
+/* ===========================
+   RESPONSIVE DESIGN
+   =========================== */
+@media (max-width: 768px) {
+  .game-title {
+    font-size: 2rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    padding: 0.75rem;
+  }
+
+  .stats-panel {
+    gap: 1rem;
+  }
+
+  .stat-card {
+    min-width: 120px;
+    padding: 1rem 1.5rem;
+  }
+
+  .stat-value {
+    font-size: 1.6rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.2rem !important;
+  }
+
+  .transaction-status {
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+  }
+
+  .win-title {
+    font-size: 2.5rem;
+  }
+
+  .modal-content {
+    margin: 1rem;
+    padding: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  .game-title {
+    font-size: 1.6rem;
+  }
+
+  .stat-value {
+    font-size: 1.4rem;
+  }
+
+  .stat-card {
+    padding: 0.8rem 1.2rem;
+  }
+}
+
+/* ===========================
+   UTILITY CLASSES
+   =========================== */
+.text-center {
+  text-align: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Blockchain themed icon */
+.blockchain-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: var(--neon-purple);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  animation: rotate 12s linear infinite;
+  margin-right: 0.5rem;
+}
